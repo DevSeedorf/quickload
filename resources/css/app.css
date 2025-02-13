@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+
+
+/* Default: 2 Columns */
+.custom-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px; /* Equivalent to Tailwind's gap-4 */
+}
+
+/* Medium Screens (md: 4 Columns) */
+@media (min-width: 768px) { 
+    .custom-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+.custom-grid div {
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+.custom-grid div:hover {
+    background-color: #e2e8f0; /* Light Gray */
+    transform: scale(1.05);
+}
+
+#alert-border-1{
+    transition: all 0.3s ease-in-out;
+}
+
+#alert-border-1:hover{
+    transform: scale(1.05);
+}
