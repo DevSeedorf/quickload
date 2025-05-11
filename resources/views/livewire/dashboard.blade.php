@@ -1,4 +1,7 @@
-<x-app-layout>
+
+
+<div>
+    <x-ts-toast />
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
@@ -7,7 +10,7 @@
                     <div class="text-center">
                         <x-ts-card header="WALLET BALANCE" bordered color="primary" class="bg-primary-600">
                             <h3 class="text-lg text-white mb-2 font-bold">&#8358;1,000</h3>
-                            <x-ts-button icon="arrow-down-tray" position="left" class="mx-4 mb-2 sm:mb-2 font-bold" sm>Fund Wallet</x-ts-button>
+                            <x-ts-button icon="arrow-down-tray" position="left" class="mx-4 mb-2 sm:mb-2 font-bold" x-on:click="$modalOpen('create-wallet')" sm>Fund Wallet</x-ts-button>
                             <x-ts-button icon="arrow-up-tray" position="left" class="mx-4 font-bold" sm>Withdraw Funds</x-ts-button>
                         </x-ts-card>
                     </div>
@@ -78,13 +81,13 @@
                     <div class="bg-gray-200 p-4 flex flex-col items-center justify-center text-center">
                         <img src="{{ asset('storage/images/home.png') }}" alt="" class="w-8 h-8 mb-4">
                         <span class="text-1xl font-bold mb-4">Electricity Bill</span>
-                        <span class="text-sm">Pay your electricity bill online fast, secure, and hassle-free.</span>
+                        <span class="text-sm">Pay your electricity bill online fast, secure and hassle-free.</span>
                     </div>
 
                     <div class="bg-gray-200 p-4 flex flex-col items-center justify-center text-center">
                         <img src="{{ asset('storage/images/television.png') }}" alt="" class="w-8 h-8 mb-4">
                         <span class="text-1xl font-bold mb-4">Cable Bill</span>
-                        <span class="text-sm">Conveniently make TV subscription bills online fast, secure, and hassle-free.</span>
+                        <span class="text-sm">Conveniently make TV subscription bills online fast and secure.</span>
                     </div>
 
                     <div class="bg-gray-200 p-4 flex flex-col items-center justify-center text-center">
@@ -118,4 +121,24 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+
+    
+        @livewire('wallet')
+        <x-modal id="create-wallet" name="create-wallet" :maxWidth="'2xl'">
+            <x-slot name="title">
+                Create Wallet
+            </x-slot>
+
+            <x-slot name="content">
+                    @livewire('wallet')
+            </x-slot>
+            <x-slot name="footer">
+                <x-ts-button flat label="Close" x-on:click="$dispatch('close')"/>
+                <x-ts-button primary label="Create" type="submit" form="create-wallet"/>
+            </x-slot>
+        </x-modal>
+
+        <x-ts-modal id="create-wallet" title="Create Wallet" persistent>
+            @livewire('wallet')
+        </x-ts-modal>
+</div>

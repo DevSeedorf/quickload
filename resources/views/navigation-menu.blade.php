@@ -1,7 +1,8 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    <x-ts-toast />
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 items-center">
+        <div class="flex justify-between h-16 items-center">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -15,10 +16,58 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+				
+                    <x-dropdown align="right" width="">
+                        <x-slot name="trigger">
+                            <span class="inline-flex rounded-md">
+                                <button type="button" class="inline-flex py-6 mt-0.5 border-none text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700">
+                                    {{ __('Services') }}
 
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('services')">
-                        {{ __('Services') }}
-                    </x-nav-link>
+                                    <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </button>
+                            </span>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <x-dropdown-link wire:navigate href="/airtime_purchase">
+                                {{ __('Airtime Purchase') }}
+                            </x-dropdown-link>
+
+                            <div class="border-t border-gray-200"></div>
+							
+							<x-dropdown-link href="/purchase_data" wire:navigate>
+                                {{ __('Data Purchase') }}
+                            </x-dropdown-link>
+
+                            <div class="border-t border-gray-200"></div>
+							
+							<x-dropdown-link wire:navigate href="#">
+                                {{ __('Electricity Bill') }}
+                            </x-dropdown-link>
+
+                            <div class="border-t border-gray-200"></div>
+							
+							<x-dropdown-link wire:navigate href="#">
+                                {{ __('Cable Bill') }}
+                            </x-dropdown-link>
+
+                            <div class="border-t border-gray-200"></div>
+							
+							<x-dropdown-link wire:navigate href="#">
+                                {{ __('Exam Pin') }}
+                            </x-dropdown-link>
+
+                            <div class="border-t border-gray-200"></div>
+							
+							<x-dropdown-link wire:navigate href="#">
+                                {{ __('Airtime To Cash') }}
+                            </x-dropdown-link>
+                           
+                        </x-slot>
+                    </x-dropdown>
+
 
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('transactions')">
                         {{ __('Transactions') }}
@@ -34,9 +83,14 @@
                 </div>
             </div>
 
+            
+
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <!-- Settings Dropdown -->
-                <div class="ms-3 relative">
+                <div class="ms-3 relative flex items-center space-x-3">
+                    <x-button x-on:click="$modalOpen('create-wallet')" class="ms-3" >
+                        {{ __('Create Wallet') }}
+                    </x-button>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -150,4 +204,8 @@
             </div>
         </div>
     </div>
+
+    {{-- <x-ts-modal id="create-wallet" title="Create Wallet" persistent>
+        @livewire('wallet')
+    </x-ts-modal> --}}
 </nav>

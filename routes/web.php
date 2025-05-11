@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 
+use Livewire\Volt\Volt;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,7 +35,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Volt::route('/dashboard', 'dashboard')->name('dashboard');
+	
+	Volt::route('/create_wallet', 'wallet')->name('create_wallet');
+	
+	Volt::route('/purchase_data', 'purchase_data');
 });
