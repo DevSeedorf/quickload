@@ -1,17 +1,44 @@
+<?php
 
+use Livewire\Volt\Component;
+use App\Models\ReservedAccount;
+use Illuminate\Support\Facades\Auth;
+
+new class extends Component
+{
+    public $hasWallet;
+
+    public function mount()
+    {
+        // Check if the authenticated user has an account
+        $this->hasWallet = ReservedAccount::where('user_id', Auth::user()->id)->get();
+        
+    }
+    
+
+         
+};
+?>
 
 <div>
-    <x-ts-toast />
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="text-center">
-                        <x-ts-card header="WALLET BALANCE" bordered color="primary" class="bg-primary-600">
-                            <h3 class="text-lg text-white mb-2 font-bold">&#8358;1,000</h3>
-                            <x-ts-button icon="arrow-down-tray" position="left" class="mx-4 mb-2 sm:mb-2 font-bold" x-on:click="$modalOpen('create-wallet')" sm>Fund Wallet</x-ts-button>
-                            <x-ts-button icon="arrow-up-tray" position="left" class="mx-4 font-bold" sm>Withdraw Funds</x-ts-button>
+                        <x-ts-card header="WALLET BALANCE" bordered color="green" class="bg-green-300">
+                            @if ($hasWallet)
+                                <x-ts-button data-modal-target="fund-wallet-modal" data-modal-toggle="fund-wallet-modal" sm class="">
+                                    Fund Wallet
+                                </x-ts-button>
+                                <h3 class="text-lg text-white mb-2 font-bold">&#8358;0.00</h3>
+                            @else
+                                <x-button data-modal-target="create-wallet-modal" data-modal-toggle="create-wallet-modal" class="ms-3">
+                                    {{ __('Create Wallet') }}
+                                </x-button>
+                            @endif
+                            
                         </x-ts-card>
                     </div>
                     <div class="text-center">
@@ -122,23 +149,26 @@
         </div>
     </div>
 
-    
-        @livewire('wallet')
-        <x-modal id="create-wallet" name="create-wallet" :maxWidth="'2xl'">
-            <x-slot name="title">
-                Create Wallet
-            </x-slot>
 
-            <x-slot name="content">
-                    @livewire('wallet')
-            </x-slot>
-            <x-slot name="footer">
-                <x-ts-button flat label="Close" x-on:click="$dispatch('close')"/>
-                <x-ts-button primary label="Create" type="submit" form="create-wallet"/>
-            </x-slot>
-        </x-modal>
-
-        <x-ts-modal id="create-wallet" title="Create Wallet" persistent>
-            @livewire('wallet')
-        </x-ts-modal>
+    <div id="create-wallet-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Create Wallet
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="create-wallet-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <livewire:wallet />
+            </div>
+        </div>
+    </div>
 </div>

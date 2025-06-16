@@ -1,5 +1,4 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <x-ts-toast />
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 items-center">
         <div class="flex justify-between h-16 items-center">
@@ -88,9 +87,6 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <!-- Settings Dropdown -->
                 <div class="ms-3 relative flex items-center space-x-3">
-                    <x-button x-on:click="$modalOpen('create-wallet')" class="ms-3" >
-                        {{ __('Create Wallet') }}
-                    </x-button>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -205,7 +201,4 @@
         </div>
     </div>
 
-    {{-- <x-ts-modal id="create-wallet" title="Create Wallet" persistent>
-        @livewire('wallet')
-    </x-ts-modal> --}}
-</nav>
+ </nav>

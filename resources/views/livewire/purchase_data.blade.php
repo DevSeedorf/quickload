@@ -104,7 +104,7 @@ new class extends Component {
                                 <!-- Network Field -->
                                 <label class="block my-2 text-sm font-medium text-gray-900">Network</label>
                                 <select id="network" wire:model="network" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="">-- Select Network --</option>
+                                    <option value="">Select Network</option>
                                     <option value="MTN">MTN</option>
                                     <option value="GLO">GLO</option>
                                     <option value="AIRTEL">AIRTEL</option>
@@ -114,14 +114,14 @@ new class extends Component {
                                 <!-- Data Type Field -->
                                 <label class="block my-2 text-sm font-medium text-gray-900">Data Type</label>
                                 <select id="title" wire:model="dataType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                                    <option value="">-- Select Data Type --</option>
+                                    <option value="">Select Data Type</option>
                                 </select>
                                 @error('dataType') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
             
                                 <!-- Data Plan Field -->
                                 <label class="block my-2 text-sm font-medium text-gray-900">Data Plan</label>
                                 <select id="plan" wire:model="dataPlan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                                    <option value="">-- Select Data Plan --</option>
+                                    <option value="">Select Data Plan</option>
                                 </select>
                                 @error('dataPlan') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
             
