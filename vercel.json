@@ -11,6 +11,11 @@
     }
   ],
 
+  "builds": [
+    {
+      "use": "vercel-php"
+    }
+  ],
 
   "env": {
     "APP_ENV": "production",
