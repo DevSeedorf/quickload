@@ -11,6 +11,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
+# Copy only composer files first for better caching
+COPY composer.json composer.lock ./
+
+# Install dependencies with more verbose output
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
 # Copy Laravel files
 COPY . .
 
