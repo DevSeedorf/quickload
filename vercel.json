@@ -9,6 +9,13 @@
       "src": "/(.*)",
       "dest": "api/index.php"
     }
+  ],
+
+  
+  "version": 2,
+  "buildCommand": "composer install --no-dev --optimize-autoloader && php artisan config:cache && php artisan route:cache && php artisan view:cache",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/public/index.php" }
   ]
 
 }
