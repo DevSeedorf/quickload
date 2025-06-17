@@ -1,43 +1,44 @@
 FROM php:8.2-apache
 
-# Install PHP extensions & dependencies
+# 1. Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip \
-    && docker-php-ext-install pdo mbstring exif pcntl bcmath gd
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip nodejs npm \
+    && docker-php-ext-install pdo mbstring exif pcntl bcmath gd \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
+# 2. Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# 3. Set working directory
 WORKDIR /var/www/html
 
-# Copy only composer files first for better caching
+# 4. Copy only composer files first (for caching)
 COPY composer.json composer.lock ./
 
-# Install dependencies with more verbose output
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+# 5. Install PHP dependencies (ONCE)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-scripts
 
-# Copy Laravel files
+# 6. Copy the rest of the application
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+# 7. Run composer scripts separately
+RUN composer run-script post-autoload-dump
 
-# Build frontend assets (if using Vite/Mix)
-RUN npm install && npm run build
+# 8. Build frontend assets (if needed)
+RUN if [ -f "package.json" ]; then \
+    npm install && npm run build; \
+    fi
 
-# Generate Laravel key & optimize
-RUN php artisan key:generate --force
-RUN php artisan optimize
+# 9. Generate Laravel key & optimize
+RUN php artisan key:generate --force && \
+    php artisan optimize && \
+    php artisan storage:link
 
-# Fix permissions
+# 10. Fix permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Enable Apache rewrite
+# 11. Enable Apache rewrite
 RUN a2enmod rewrite
 
-# Expose port 8080 (Apache runs here, Render maps to 10000)
 EXPOSE 8080
-
-# Start Apache
 CMD ["apache2-foreground"]
