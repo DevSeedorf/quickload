@@ -11,4 +11,4 @@ php artisan key:generate --force
 php artisan optimize
 
 # Install node dependencies and build assets (if needed)
-npm install && npm run prod
+npm install && npm run build
