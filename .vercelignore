@@ -1,28 +1,10 @@
 /vendor/
-composer.lock
-
-# Ignore Node-related files (if you're not using frontend tooling here)
 node_modules/
-package.json
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
-vite.config.js
-webpack.mix.js
+.env
 
-# Ignore tests
 /tests/
 phpunit.xml
 
-# Ignore environment config
-.env
-.env.*.backup
-
-# Ignore system files
 *.log
 *.DS_Store
 
-# Optional: ignore build directories
-/public/storage/
-public/hot
-/storage/*.key
