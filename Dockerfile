@@ -1,9 +1,9 @@
 FROM php:8.2-apache
 
-# 1. Install system dependencies
+# 1. Install system dependencies with zip extension
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip nodejs npm \
-    && docker-php-ext-install pdo mbstring exif pcntl bcmath gd \
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip libzip-dev nodejs npm \
+    && docker-php-ext-install zip pdo mbstring exif pcntl bcmath gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 2. Install Composer
