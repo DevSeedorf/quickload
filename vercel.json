@@ -9,22 +9,6 @@
       "src": "/(.*)",
       "dest": "api/index.php"
     }
-  ],
+  ]
 
-  "builds": [
-    {
-      "use": "vercel-php"
-    }
-  ],
-
-  "env": {
-    "APP_ENV": "production",
-    "APP_DEBUG": "false",
-    "DB_CONNECTION": "mysql",
-    "DB_HOST": "your-database-host",
-    "DB_PORT": "3306",
-    "DB_DATABASE": "your-database-name",
-    "DB_USERNAME": "your-database-username",
-    "DB_PASSWORD": "your-database-password"
-  }
-  }
+}
