@@ -41,5 +41,8 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 RUN a2enmod rewrite
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
+# Enable the site config and reload Apache
+RUN a2ensite 000-default.conf && apachectl configtest
+
 EXPOSE 8080
 CMD ["apache2-foreground"]
