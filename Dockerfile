@@ -56,10 +56,5 @@ RUN php artisan key:generate --force && \
 # 10. Fix permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# 11. Enable Apache rewrite
-RUN a2enmod rewrite
-COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
-
-
 EXPOSE 8080
 CMD ["apache2-foreground"]
