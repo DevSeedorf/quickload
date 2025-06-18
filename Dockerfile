@@ -15,6 +15,19 @@ RUN a2enmod rewrite
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!/var/www/html/public!g' /etc/apache2/conf-available/*.conf
 
+# Create custom Apache config
+RUN { \
+    echo '<VirtualHost *:8080>'; \
+    echo '  DocumentRoot /var/www/html/public'; \
+    echo '  <Directory /var/www/html/public>'; \
+    echo '    Options -Indexes +FollowSymLinks'; \
+    echo '    AllowOverride All'; \
+    echo '    Require all granted'; \
+    echo '    FallbackResource /index.php'; \
+    echo '  </Directory>'; \
+    echo '</VirtualHost>'; \
+} > /etc/apache2/sites-available/000-default.conf
+
 # 3. Set working directory
 WORKDIR /var/www/html
 
