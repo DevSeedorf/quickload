@@ -1,14 +1,14 @@
 FROM php:8.2-apache
 
-# 1. Install system dependencies
+# 1. Install system dependencies (MySQL only)
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev \
     zip unzip libzip-dev nodejs npm \
     # MySQL dependencies:
-    libpq-dev default-mysql-client \
+    default-mysql-client libmysqlclient-dev \
     && docker-php-ext-install \
     # MySQL extensions:
-    pdo_mysql pdo pdo_pgsql \
+    pdo_mysql mysqli \
     # Other required extensions:
     zip mbstring exif pcntl bcmath gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 # 2. Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 3. Configure Apache
+# 3. Configure Apache (keep your existing config)
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
     a2enmod rewrite && \
     sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf && \
