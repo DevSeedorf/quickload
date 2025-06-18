@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev \
     zip unzip libzip-dev nodejs npm \
     # MySQL dependencies:
-    default-mysql-client libmysqlclient-dev \
+    mariadb-client libmariadb-dev \
     && docker-php-ext-install \
     # MySQL extensions:
     pdo_mysql mysqli \
@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 # 2. Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 3. Configure Apache (keep your existing config)
+# 3. Configure Apache
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
     a2enmod rewrite && \
     sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf && \
