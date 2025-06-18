@@ -47,14 +47,9 @@ RUN if [ -f "package.json" ]; then \
     npm install && npm run build; \
     fi
 
-# 10. Laravel setup and migrations
+# 10. Laravel setup (no migration here!)
 RUN php artisan key:generate --force && \
     php artisan storage:link && \
-    { \
-        if [ "$APP_ENV" = "production" ]; then \
-            php artisan migrate --force; \
-        fi \
-    } && \
     php artisan optimize
 
 # 11. Permissions

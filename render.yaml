@@ -3,6 +3,11 @@ services:
     name: quickload
     runtime: docker
     plan: free
+
+    startCommand: |
+      php artisan migrate --force
+      apache2-foreground
+
     envVars:
       - key: APP_ENV
         value: production
