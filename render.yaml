@@ -26,6 +26,10 @@ services:
         value: avnadmin
       - key: DB_PASSWORD
         value: AVNS_yXHhbL5BBUWL39hdSZX
+      - key: DB_SSL
+        value: true
+      - key: DB_SSL_CA
+        value: storage/certs/aiven-ca.pem
 
       # Laravel Session & Cache Drivers
       - key: SESSION_DRIVER
