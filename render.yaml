@@ -5,7 +5,7 @@ services:
     plan: free
 
     startCommand: |
-      php artisan migrate --force && apache2-foreground
+      apache2-foreground
 
     envVars:
       - key: APP_ENV
@@ -19,7 +19,7 @@ services:
 
       # Aiven MySQL Database Configuration
       - key: DB_CONNECTION
-        value: mysql
+        value: null
       - key: DB_HOST
         value: sql8.freesqldatabase.com
       - key: DB_PORT
