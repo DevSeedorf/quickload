@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# 1. Install system dependencies (MySQL only)
+# 1. Install system dependencies (MySQL and Node.js)
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev \
     zip unzip libzip-dev nodejs npm \
@@ -27,21 +27,24 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
 # 4. Set working directory
 WORKDIR /var/www/html
 
-# 5. Copy only composer files first (better layer caching)
+# 5. Copy composer files
 COPY composer.json composer.lock ./
 
 # 6. Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# 7. Copy the rest of the application
+# 7. Copy application
 COPY . .
 
 # 8. Run composer scripts
 RUN composer run-script post-autoload-dump
 
-# 9. Build frontend assets (if needed)
+# 9. Build frontend assets
 RUN if [ -f "package.json" ]; then \
-    npm install && npm run build; \
+    npm install && \
+    npm run build || { echo "❌ Frontend build failed"; exit 1; } \
+    else \
+    echo "No package.json found, skipping frontend build"; \
     fi
 
 # 10. Permissions
