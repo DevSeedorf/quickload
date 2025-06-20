@@ -50,10 +50,11 @@ RUN if [ -f "package.json" ]; then \
 # 10. Laravel setup (no migration here!)
 RUN php artisan key:generate --force && \
     php artisan storage:link && \
-    php artisan optimize
+    # php artisan optimize
 
 # 11. Permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-EXPOSE 8080
-CMD ["apache2-foreground"]
+COPY start.sh .
+RUN chmod +x start.sh
+CMD ["./start.sh"]
