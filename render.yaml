@@ -5,8 +5,7 @@ services:
     plan: free
 
     startCommand: |
-      php artisan migrate --force
-      apache2-foreground
+      php artisan migrate --force && apache2-foreground
 
     envVars:
       - key: APP_ENV
