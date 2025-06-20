@@ -4,10 +4,17 @@ echo "✅ Starting deployment..."
 
 # 1. Show environment load status
 echo "Loading environment variables from Render dashboard..."
+# Debug: List relevant environment variables
+env | grep -E 'APP_|DB_|SESSION_|CACHE_' || echo "No relevant environment variables found"
 
 # 2. Create Laravel .env file if not present
 if [ ! -f .env ]; then
   echo "Generating .env file..."
+  # Check if required variables are set
+  if [ -z "$APP_KEY" ] || [ -z "$DB_HOST" ] || [ -z "$DB_USERNAME" ]; then
+    echo "❌ Missing critical environment variables (APP_KEY, DB_HOST, DB_USERNAME)"
+    exit 1
+  fi
   cat <<EOF > .env
 APP_KEY=$APP_KEY
 APP_ENV=$APP_ENV
@@ -24,6 +31,8 @@ DB_PASSWORD=$DB_PASSWORD
 CACHE_DRIVER=$CACHE_DRIVER
 SESSION_DRIVER=$SESSION_DRIVER
 EOF
+  chmod 644 .env
+  echo "✅ .env file created."
 else
   echo ".env file already exists, skipping creation."
 fi
