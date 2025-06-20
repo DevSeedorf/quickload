@@ -39,6 +39,15 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SELECT 
 }
 echo "✅ MySQL connection successful."
 
+# 4.5 Build frontend assets (Tailwind, Vite, etc.)
+if [ -f "package.json" ]; then
+  echo "📦 Installing frontend dependencies..."
+  npm install
+
+  echo "⚙️ Building frontend assets..."
+  npm run build
+fi
+
 # 5. Laravel setup
 echo "Running Laravel setup commands..."
 php artisan storage:link
