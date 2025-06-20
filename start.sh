@@ -20,7 +20,18 @@ if [ -z "$DB_HOST" ] || [ -z "$DB_PORT" ] || [ -z "$DB_USERNAME" ] || [ -z "$DB_
 fi
 echo "✅ Database variables present."
 
-# 3. Test MySQL connection
+# 3. Ensure storage/logs directory exists and has correct permissions
+echo "Setting up storage and logs permissions..."
+mkdir -p /var/www/html/storage/logs
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Ensure laravel.log is writable
+touch /var/www/html/storage/logs/laravel.log
+chmod 664 /var/www/html/storage/logs/laravel.log
+chown www-data:www-data /var/www/html/storage/logs/laravel.log
+echo "✅ Permissions set for storage and logs."
+
+# 4. Test MySQL connection
 echo "Testing MySQL connection..."
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SELECT 1" || {
   echo "❌ MySQL connection failed"
@@ -28,10 +39,8 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SELECT 
 }
 echo "✅ MySQL connection successful."
 
-# 4. Laravel setup
+# 5. Laravel setup
 echo "Running Laravel setup commands..."
-chmod -R 775 storage bootstrap/cache
-chown -R www-data:www-data storage bootstrap/cache
 php artisan config:clear
 php artisan cache:clear
 php artisan key:generate --force
@@ -39,6 +48,6 @@ php artisan storage:link
 php artisan optimize
 php artisan migrate --force
 
-# 5. Start Apache
+# 6. Start Apache
 echo "🚀 Launching Apache..."
 exec apache2-foreground

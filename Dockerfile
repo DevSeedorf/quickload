@@ -44,9 +44,11 @@ RUN if [ -f "package.json" ]; then \
     npm install && npm run build; \
     fi
 
-# 10. Permissions and setup
-RUN chmod +x artisan && \
-    chown -R www-data:www-data storage bootstrap/cache
+# 10. Permissions
+RUN mkdir -p /var/www/html/storage/logs && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod +x artisan
 
 # 11. Copy start script
 COPY start.sh .
