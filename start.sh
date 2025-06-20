@@ -43,7 +43,6 @@ echo "✅ MySQL connection successful."
 echo "Running Laravel setup commands..."
 php artisan config:clear
 php artisan cache:clear
-php artisan key:generate --force
 php artisan storage:link
 php artisan optimize
 php artisan migrate --force
