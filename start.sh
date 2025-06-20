@@ -41,11 +41,10 @@ echo "✅ MySQL connection successful."
 
 # 5. Laravel setup
 echo "Running Laravel setup commands..."
-php artisan config:clear
-php artisan cache:clear
 php artisan storage:link
-php artisan optimize
 php artisan migrate --force
+php artisan optimize
+
 
 # 6. Start Apache
 echo "🚀 Launching Apache..."
