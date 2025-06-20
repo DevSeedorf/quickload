@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use Livewire\Volt\Volt;
 
@@ -40,4 +41,14 @@ Route::middleware([
 	Volt::route('/create_wallet', 'wallet')->name('create_wallet');
 	
 	Volt::route('/purchase_data', 'purchase_data');
+});
+
+
+Route::get('/db-test', function () {
+    try {
+        DB::connection()->getPdo();
+        return "Successfully connected to the database.";
+    } catch (\Exception $e) {
+        return "DB connection error: " . $e->getMessage();
+    }
 });
