@@ -4,12 +4,9 @@ FROM php:8.2-apache
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev \
     zip unzip libzip-dev nodejs npm \
-    # MySQL dependencies:
     mariadb-client libmariadb-dev \
     && docker-php-ext-install \
-    # MySQL extensions:
     pdo_mysql mysqli \
-    # Other required extensions:
     zip mbstring exif pcntl bcmath gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -47,14 +44,13 @@ RUN if [ -f "package.json" ]; then \
     npm install && npm run build; \
     fi
 
-# 10. Laravel setup (no migration here!)
-RUN php artisan key:generate --force && \
-    php artisan storage:link && \
-    # php artisan optimize
+# 10. Permissions and setup
+RUN chmod +x artisan && \
+    chown -R www-data:www-data storage bootstrap/cache
 
-# 11. Permissions
-RUN chown -R www-data:www-data storage bootstrap/cache
-
+# 11. Copy start script
 COPY start.sh .
 RUN chmod +x start.sh
 CMD ["./start.sh"]
+
+EXPOSE 8080
