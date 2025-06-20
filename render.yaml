@@ -4,22 +4,22 @@ services:
     runtime: docker
     plan: free
 
-    startCommand: |
-      apache2-foreground
+    # startCommand: |
+      # php artisan migrate --force && apache2-foreground
 
     envVars:
-      - key: APP_ENV
-        value: production
-      - key: APP_DEBUG
-        value: true
-      - key: APP_URL
-        value: https://quickload.onrender.com
-      - key: APP_KEY
-        generateValue: true
+      # - key: APP_ENV
+      #   value: production
+      # - key: APP_DEBUG
+      #   value: true
+      # - key: APP_URL
+      #   value: https://quickload.onrender.com
+      # - key: APP_KEY
+      #   generateValue: true
 
       # Aiven MySQL Database Configuration
-      - key: DB_CONNECTION
-        value: null
+      # - key: DB_CONNECTION
+      #   value: null
       # - key: DB_HOST
       #   value: sql8.freesqldatabase.com
       # - key: DB_PORT
@@ -33,7 +33,7 @@ services:
       
 
       # Laravel Session & Cache Drivers
-      - key: SESSION_DRIVER
-        value: file
-      - key: CACHE_DRIVER
-        value: file
+      # - key: SESSION_DRIVER
+      #   value: file
+      # - key: CACHE_DRIVER
+      #   value: file
